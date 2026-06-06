@@ -11,7 +11,7 @@
   <div class="header-inner">
     <div class="kicker">PLC Readiness Compass</div>
     <h1>Team Dashboard and Report Generator</h1>
-    <p>Paste individual response codes to generate a printable PLC readiness conversation report.</p>
+    <p>Turn individual reflection into a printable PLC conversation report.</p>
   </div>
 </header>
 
@@ -27,6 +27,9 @@
   <section class="card no-print">
     <h2>Paste Individual Response Codes</h2>
     <p>Ask each PLC member to complete the individual assessment and share their response code if they choose to participate in the team report. Paste one code per line.</p>
+    <div class="warm-notice">
+      <strong>Facilitator note:</strong> The dashboard should be used to guide conversation, not to prove whether the team is “good” or “bad” at PLC work. Begin with evidence, then move to one next step.
+    </div>
     <textarea id="codesInput" placeholder="PLC-COMPASS|3,3,2,4|..."></textarea>
     <button type="button" id="generateDashboard">Generate Team Dashboard</button>
     <button type="button" id="loadSample" class="secondary">Load Sample Data</button>
@@ -54,7 +57,8 @@
     <section id="actionPlan" class="card"></section>
 
     <section class="card no-print">
-      <button type="button" id="printReport">Print or Save Report</button>
+      <button type="button" id="exportDashboardPdf">Export / Save Report as PDF</button>
+      <p class="export-note">This opens your browser print window. Choose “Save as PDF” as the destination.</p>
     </section>
   </section>
 </main>
