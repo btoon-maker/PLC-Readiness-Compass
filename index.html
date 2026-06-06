@@ -11,7 +11,7 @@
   <div class="header-inner">
     <div class="kicker">PLC Readiness Compass</div>
     <h1>Individual PLC Readiness Assessment</h1>
-    <p>A private reflection tool for assessing readiness conditions before a PLC team conversation.</p>
+    <p>A private reflection tool for noticing the conditions that help or get in the way of real PLC work.</p>
   </div>
 </header>
 
@@ -24,39 +24,49 @@
 </nav>
 
 <main>
-  <section class="card">
-    <h2>Purpose</h2>
-    <p>This diagnostic helps PLC members reflect on the conditions that support authentic professional learning community work. It is grounded in five PLC components: shared and supportive leadership, shared values and vision, collective learning and application, shared personal practice, and supportive conditions.</p>
-    <div class="notice">
-      <strong>Privacy note:</strong> This page does not store or transmit your responses. Your results stay in your browser unless you choose to copy and share your response code with a facilitator.
-    </div>
-  </section>
+  <div id="introCards">
+    <section class="card">
+      <h2>Before you begin</h2>
+      <p>This is not meant to grade your PLC or evaluate individual teachers. It is meant to help each person pause and think: <strong>What conditions are helping us work as a true professional learning community, and what conditions may need attention?</strong></p>
+      <p>Answer based on what you have actually experienced in recent PLC meetings. When possible, think of a concrete example before choosing a rating.</p>
+      <div class="notice">
+        <strong>Privacy note:</strong> This page does not store or transmit your responses. Your results stay in your browser unless you choose to copy and share your response code with a facilitator.
+      </div>
+    </section>
 
-  <section class="card">
-    <h2>Rating Scale</h2>
-    <div class="scale">
-      <div><strong>1 — Not Yet Evident</strong><br>This condition is mostly absent or inconsistent.</div>
-      <div><strong>2 — Emerging</strong><br>This condition appears occasionally but is not yet reliable.</div>
-      <div><strong>3 — Developing</strong><br>This condition is present and useful but still needs strengthening.</div>
-      <div><strong>4 — Established</strong><br>This condition is consistently present and supports PLC work.</div>
-    </div>
-  </section>
+    <section class="card">
+      <h2>Rating Scale</h2>
+      <div class="scale">
+        <div><strong>1 — Not Yet Evident</strong><br>I do not see this happening yet, or it happens so rarely that it does not shape our PLC work.</div>
+        <div><strong>2 — Emerging</strong><br>This happens sometimes, but it is inconsistent or depends on the situation/person.</div>
+        <div><strong>3 — Developing</strong><br>This is present and helpful, but we could make it more intentional or consistent.</div>
+        <div><strong>4 — Established</strong><br>This is a regular part of how our PLC works and it supports meaningful collaboration.</div>
+      </div>
+    </section>
+  </div>
 
   <form id="assessmentForm"></form>
 
   <section class="card no-print">
-    <button type="button" id="generateIndividual">Generate Individual Summary</button>
+    <button type="button" id="generateIndividual">Generate My Summary</button>
   </section>
 
   <section id="individualResults" class="card" style="display:none;">
+    <div class="print-only">
+      <h1>Individual PLC Readiness Summary</h1>
+      <p>This summary is for private reflection and voluntary sharing.</p>
+    </div>
+
     <div id="individualOverall"></div>
     <h3>Domain Scores</h3>
     <div id="individualBars"></div>
 
     <h3>Your Response Code</h3>
-    <p>Copy this code and share it with the facilitator if you want your ratings included in the team dashboard.</p>
+    <p>Copy this code and share it with the facilitator only if you want your ratings included in the team dashboard. Your written evidence notes are not included in the code.</p>
     <div id="responseCode" class="code-box"></div>
     <button type="button" id="copyCode" class="no-print">Copy Code</button>
+    <button type="button" id="exportIndividualPdf" class="secondary no-print">Export / Save Summary as PDF</button>
+    <p class="export-note no-print">This opens your browser print window. Choose “Save as PDF” as the destination.</p>
   </section>
 </main>
 
