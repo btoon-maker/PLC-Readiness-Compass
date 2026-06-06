@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLC Readiness Compass | Individual Assessment</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="kicker">PLC Readiness Compass</div>
+    <h1>Individual PLC Readiness Assessment</h1>
+    <p>A private reflection tool for assessing readiness conditions before a PLC team conversation.</p>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a class="active" href="index.html">Individual Assessment</a>
+    <a href="dashboard.html">Team Dashboard</a>
+    <a href="facilitator-guide.html">Facilitator Guide</a>
+  </div>
+</nav>
+
+<main>
+  <section class="card">
+    <h2>Purpose</h2>
+    <p>This diagnostic helps PLC members reflect on the conditions that support authentic professional learning community work. It is grounded in five PLC components: shared and supportive leadership, shared values and vision, collective learning and application, shared personal practice, and supportive conditions.</p>
+    <div class="notice">
+      <strong>Privacy note:</strong> This page does not store or transmit your responses. Your results stay in your browser unless you choose to copy and share your response code with a facilitator.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Rating Scale</h2>
+    <div class="scale">
+      <div><strong>1 — Not Yet Evident</strong><br>This condition is mostly absent or inconsistent.</div>
+      <div><strong>2 — Emerging</strong><br>This condition appears occasionally but is not yet reliable.</div>
+      <div><strong>3 — Developing</strong><br>This condition is present and useful but still needs strengthening.</div>
+      <div><strong>4 — Established</strong><br>This condition is consistently present and supports PLC work.</div>
+    </div>
+  </section>
+
+  <form id="assessmentForm"></form>
+
+  <section class="card no-print">
+    <button type="button" id="generateIndividual">Generate Individual Summary</button>
+  </section>
+
+  <section id="individualResults" class="card" style="display:none;">
+    <div id="individualOverall"></div>
+    <h3>Domain Scores</h3>
+    <div id="individualBars"></div>
+
+    <h3>Your Response Code</h3>
+    <p>Copy this code and share it with the facilitator if you want your ratings included in the team dashboard.</p>
+    <div id="responseCode" class="code-box"></div>
+    <button type="button" id="copyCode" class="no-print">Copy Code</button>
+  </section>
+</main>
+
+<footer>
+  <p>PLC Readiness Compass. Serverless prototype for PLC reflection and conversation.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
