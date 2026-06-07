@@ -100,25 +100,25 @@ function readinessLabel(score) {
   if (score < 2) return {
     label: "Foundational Concern",
     cls: "low",
-    desc: "Major readiness conditions appear absent or inconsistent. Begin with trust, time, norms, and clarity before expecting deeper PLC work."
+    desc: "Based on your ratings, major readiness conditions appear absent or inconsistent. Begin with trust, time, norms, and clarity before expecting deeper PLC work."
   };
 
   if (score < 2.8) return {
     label: "Emerging",
     cls: "mid",
-    desc: "Some readiness conditions are present, but the team likely needs more consistency, shared routines, and support."
+    desc: "Based on your ratings, some readiness conditions are present, but the team likely needs more consistency, shared routines, and support."
   };
 
   if (score < 3.5) return {
     label: "Developing",
     cls: "neutral",
-    desc: "The team has usable readiness foundations and can strengthen PLC practice through focused next steps and follow-up."
+    desc: "Based on your ratings, the team has usable readiness foundations and can strengthen PLC practice through focused next steps and follow-up."
   };
 
   return {
     label: "Established",
     cls: "good",
-    desc: "This area appears to be a strong readiness condition for deeper PLC work."
+    desc: "Based on your ratings, this area appears to be a strong readiness condition for deeper PLC work."
   };
 }
 
