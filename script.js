@@ -546,37 +546,39 @@ function initDashboardPage() {
       </div>
     `;
 
-    document.getElementById("actionPlan").innerHTML = `
-      <h3>PLC Action Plan</h3>
-      <p>Choose one realistic move to try before the next PLC cycle. The goal is not to fix everything. The goal is to strengthen one readiness condition on purpose.</p>
-      <table>
-        <thead>
-          <tr>
-            <th>Readiness condition to strengthen</th>
-            <th>One next step</th>
-            <th>Owner/facilitator</th>
-            <th>Timeline</th>
-            <th>Evidence to revisit</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>${lowest.title}</td>
-            <td>&nbsp;<br>&nbsp;</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>${widest.title}</td>
-            <td>&nbsp;<br>&nbsp;</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
-    `;
+document.getElementById("actionPlan").innerHTML = `
+  <h3>PLC Action Plan</h3>
+  <p>Choose one realistic move to try before the next PLC cycle. The goal is not to fix everything. The goal is to strengthen one readiness condition on purpose.</p>
+  <table class="action-table">
+    <thead>
+      <tr>
+        <th>Readiness condition to strengthen</th>
+        <th>One next step</th>
+        <th>Owner/facilitator</th>
+        <th>Timeline</th>
+        <th>Evidence to revisit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>${lowest.title}</td>
+        <td><textarea class="action-input" placeholder="What is one realistic next step?"></textarea></td>
+        <td><textarea class="action-input" placeholder="Who will lead or follow up?"></textarea></td>
+        <td><textarea class="action-input" placeholder="By when?"></textarea></td>
+        <td><textarea class="action-input" placeholder="What evidence will we revisit?"></textarea></td>
+      </tr>
+      <tr>
+        <td>${widest.title}</td>
+        <td><textarea class="action-input" placeholder="What is one realistic next step?"></textarea></td>
+        <td><textarea class="action-input" placeholder="Who will lead or follow up?"></textarea></td>
+        <td><textarea class="action-input" placeholder="By when?"></textarea></td>
+        <td><textarea class="action-input" placeholder="What evidence will we revisit?"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+`;
+
+setupActionPlanTextareas();
 
     window.scrollTo({
       top: document.getElementById("dashboardResults").offsetTop - 20,
@@ -601,7 +603,19 @@ function initDashboardPage() {
     });
   }
 }
+function setupActionPlanTextareas() {
+  const textareas = document.querySelectorAll(".action-input");
 
+  textareas.forEach(textarea => {
+    const resize = () => {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    };
+
+    textarea.addEventListener("input", resize);
+    resize();
+  });
+}
 document.addEventListener("DOMContentLoaded", () => {
   initIndividualPage();
   initDashboardPage();
