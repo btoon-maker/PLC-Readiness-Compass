@@ -4,19 +4,19 @@ const DOMAINS = [
     title: "Shared and Supportive Leadership",
     short: "Shared Leadership",
     description: "This section looks at how formal PLC leadership supports shared ownership, teacher voice, and meaningful collaboration, even when the PLC is facilitated by a designated lead or guided by administrative priorities.",
-    evidenceLead: "Think about recent agendas, decisions, follow-up, facilitation, and whose voices shaped the work.",
+    evidenceLead: "Think about recent agendas, administrative priorities, facilitation moves, team decisions, follow-up, and whose voices shaped the work.",
     items: [
       "When we meet as a PLC, team members have meaningful opportunities to shape the work, even when the agenda is guided by a department lead or administrative priorities.",
-      "Leadership in our PLC feels shared. Different people can guide, question, contribute, or take ownership when it makes sense.",
-      "Our PLC time is protected for meaningful instructional work, not mostly announcements, reminders, or compliance tasks.",
-      "When we identify a barrier, someone with influence helps remove it or helps us find a realistic path forward."
+      "Although one person may formally facilitate the PLC, different members have opportunities to guide discussion, ask questions, contribute expertise, or take ownership of next steps.",
+      "Our PLC time is protected for meaningful instructional work, not only announcements, reminders, administrative updates, or compliance tasks.",
+      "When we identify a barrier, the department lead, administrator, or team helps remove it or helps us find a realistic path forward."
     ],
     prompts: [
       "Where do members currently have real influence over PLC decisions?",
       "Whose voices are shaping the work most often, and whose voices might be easier to miss?",
       "What small facilitation move would make leadership feel more shared next time?"
     ],
-    recommendation: "Clarify how agenda items are chosen, rotate facilitation roles, and identify one decision the team can make collectively."
+    recommendation: "Clarify which parts of the PLC agenda are administratively directed, which parts can be shaped by the team, and one decision or follow-up action members can collectively own."
   },
   {
     id: "vision",
