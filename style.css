@@ -144,20 +144,18 @@ main {
 .scale div {
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 1rem;
+  padding: 1rem 1.1rem;
   background: var(--accent-soft);
   text-align: center;
-  min-height: 198px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  min-height: 150px;
+  line-height: 1.35;
 }
 
-/* This keeps the rating title and description nicely spaced inside each centered box. */
 .scale div strong {
   display: block;
   margin-bottom: .45rem;
+  font-size: 1rem;
+  line-height: 1.25;
 }
 
 .domain {
@@ -302,10 +300,29 @@ button:hover { filter: brightness(.95); }
   background: #fff;
 }
 
-.badge.low { color: var(--danger); background: #fff2f2; border-color: #f0c4c4; }
-.badge.mid { color: var(--warning); background: #fff8e8; border-color: #ead197; }
-.badge.good { color: var(--success); background: #effaf4; border-color: #badbc8; }
-.badge.neutral { color: var(--accent); background: var(--accent-soft); border-color: #cdd3ff; }
+.badge.low {
+  color: var(--danger);
+  background: #fff2f2;
+  border-color: #f0c4c4;
+}
+
+.badge.mid {
+  color: var(--warning);
+  background: #fff8e8;
+  border-color: #ead197;
+}
+
+.badge.good {
+  color: var(--success);
+  background: #effaf4;
+  border-color: #badbc8;
+}
+
+.badge.neutral {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: #cdd3ff;
+}
 
 table {
   width: 100%;
@@ -357,22 +374,47 @@ footer {
 }
 
 @media print {
-  nav, header .kicker, button, .no-print, footer, #assessmentForm, #introCards { display: none !important; }
-  body { background: white; color: black; }
+  nav, header .kicker, button, .no-print, footer, #assessmentForm, #introCards {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
   header {
     background: white;
     color: black;
     padding: 0 0 .5rem 0;
   }
-  header p { color: black; }
-  main { padding: 0; max-width: 100%; }
+
+  header p {
+    color: black;
+  }
+
+  main {
+    padding: 0;
+    max-width: 100%;
+  }
+
   .card, .result-card {
     box-shadow: none;
     border: 1px solid #999;
     break-inside: avoid;
     page-break-inside: avoid;
   }
-  .print-only { display: block; }
-  a { color: black; text-decoration: none; }
-  .bar { border: 1px solid #999; }
+
+  .print-only {
+    display: block;
+  }
+
+  a {
+    color: black;
+    text-decoration: none;
+  }
+
+  .bar {
+    border: 1px solid #999;
+  }
 }
