@@ -97,15 +97,34 @@ const DOMAINS = [
 ];
 
 function readinessLabel(score) {
-  if (score < 2) return {label:"Foundational Concern", cls:"low", desc:"Major readiness conditions appear absent or inconsistent. Begin with trust, time, norms, and clarity before expecting deeper PLC work."};
-  if (score < 2.8) return {label:"Emerging", cls:"mid", desc:"Some readiness conditions are present, but the team likely needs more consistency, shared routines, and support."};
-  if (score < 3.5) return {label:"Developing", cls:"neutral", desc:"The team has usable readiness foundations and can strengthen PLC practice through focused next steps and follow-up."};
-  return {label:"Established", cls:"good", desc:"This area appears to be a strong readiness condition for deeper PLC work."};
+  if (score < 2) return {
+    label: "Foundational Concern",
+    cls: "low",
+    desc: "Major readiness conditions appear absent or inconsistent. Begin with trust, time, norms, and clarity before expecting deeper PLC work."
+  };
+
+  if (score < 2.8) return {
+    label: "Emerging",
+    cls: "mid",
+    desc: "Some readiness conditions are present, but the team likely needs more consistency, shared routines, and support."
+  };
+
+  if (score < 3.5) return {
+    label: "Developing",
+    cls: "neutral",
+    desc: "The team has usable readiness foundations and can strengthen PLC practice through focused next steps and follow-up."
+  };
+
+  return {
+    label: "Established",
+    cls: "good",
+    desc: "This area appears to be a strong readiness condition for deeper PLC work."
+  };
 }
 
 function average(arr) {
   if (!arr.length) return 0;
-  return arr.reduce((a,b) => a + b, 0) / arr.length;
+  return arr.reduce((a, b) => a + b, 0) / arr.length;
 }
 
 function round2(n) {
@@ -126,31 +145,46 @@ function makeCode(scores) {
 
 function parseCode(code) {
   const trimmed = code.trim();
-  if (!trimmed.startsWith("PLC-COMPASS|")) throw new Error("Code must begin with PLC-COMPASS|");
+
+  if (!trimmed.startsWith("PLC-COMPASS|")) {
+    throw new Error("Code must begin with PLC-COMPASS|");
+  }
+
   const parts = trimmed.replace("PLC-COMPASS|", "").split("|");
-  if (parts.length !== DOMAINS.length) throw new Error("Code does not contain all five PLC domains.");
+
+  if (parts.length !== DOMAINS.length) {
+    throw new Error("Code does not contain all five PLC domains.");
+  }
+
   const out = {};
+
   parts.forEach((part, i) => {
     const nums = part.split(",").map(x => Number(x.trim()));
-    if (nums.length !== 4 || nums.some(n => ![1,2,3,4].includes(n))) {
+
+    if (nums.length !== 4 || nums.some(n => ![1, 2, 3, 4].includes(n))) {
       throw new Error("Each domain must contain four ratings from 1 to 4.");
     }
+
     out[DOMAINS[i].id] = nums;
   });
+
   return out;
 }
 
 function scoreDomains(scores) {
   const result = {};
+
   DOMAINS.forEach(d => {
     result[d.id] = round2(average(scores[d.id]));
   });
+
   return result;
 }
 
 function renderBars(domainScores, containerId) {
   const container = document.getElementById(containerId);
   container.innerHTML = "";
+
   DOMAINS.forEach(d => {
     const score = domainScores[d.id];
     const info = readinessLabel(score);
@@ -185,7 +219,6 @@ function renderBars(domainScores, containerId) {
   });
 }
 
-
 function escapeHtml(value) {
   return String(value || "")
     .replaceAll("&", "&amp;")
@@ -197,10 +230,12 @@ function escapeHtml(value) {
 
 function collectEvidenceNotes() {
   const notes = {};
+
   DOMAINS.forEach(domain => {
     const field = document.querySelector(`textarea[name="${domain.id}_evidence"]`);
     notes[domain.id] = field ? field.value.trim() : "";
   });
+
   return notes;
 }
 
@@ -209,6 +244,7 @@ function renderEvidenceNotes(notes, containerId) {
   if (!container) return;
 
   const hasAnyNotes = DOMAINS.some(d => notes[d.id]);
+
   if (!hasAnyNotes) {
     container.innerHTML = `
       <h3>Evidence Notes</h3>
@@ -221,6 +257,7 @@ function renderEvidenceNotes(notes, containerId) {
     const safeNote = notes[domain.id]
       ? escapeHtml(notes[domain.id]).replaceAll("\n", "<br>")
       : "<span class='small'>No note entered.</span>";
+
     return `
       <div class="result-card">
         <h4>${domain.title}</h4>
@@ -248,20 +285,27 @@ function exportPdf(title) {
 function generateIndividualForm() {
   const form = document.getElementById("assessmentForm");
   if (!form) return;
+
   DOMAINS.forEach((domain) => {
     const section = document.createElement("section");
     section.className = "card domain";
+
     section.innerHTML = `
       <h2>${domain.title}</h2>
       <p class="domain-intro">${domain.description}</p>
-      <p class="small"><strong>Before rating:</strong> ${domain.evidenceLead}</p>
+      <div class="evidence-note">
+        <strong>Before rating:</strong> ${domain.evidenceLead}
+      </div>
     `;
+
     domain.items.forEach((item, i) => {
       const name = `${domain.id}_${i}`;
+
       const itemDiv = document.createElement("div");
       itemDiv.className = "item";
+
       itemDiv.innerHTML = `
-        <p>${i+1}. ${item}</p>
+        <p>${i + 1}. ${item}</p>
         <div class="radio-row" role="radiogroup" aria-label="${item}">
           <label><input type="radio" name="${name}" value="1" required> 1 Not Yet</label>
           <label><input type="radio" name="${name}" value="2"> 2 Emerging</label>
@@ -269,15 +313,19 @@ function generateIndividualForm() {
           <label><input type="radio" name="${name}" value="4"> 4 Established</label>
         </div>
       `;
+
       section.appendChild(itemDiv);
     });
+
     const evidence = document.createElement("div");
     evidence.className = "item";
+
     evidence.innerHTML = `
       <p>One example that influenced your ratings</p>
       <p class="plain">This does not transfer to the team dashboard. It is here to help make your ratings evidence-informed instead of just a gut reaction.</p>
       <textarea name="${domain.id}_evidence" placeholder="For example: a recent agenda, a student work conversation, a shared resource, a decision point, a barrier, or a moment of trust/distrust."></textarea>
     `;
+
     section.appendChild(evidence);
     form.appendChild(section);
   });
@@ -286,36 +334,51 @@ function generateIndividualForm() {
 function collectIndividualScores() {
   const scores = {};
   let missing = [];
+
   DOMAINS.forEach(domain => {
     scores[domain.id] = [];
+
     domain.items.forEach((item, i) => {
       const selected = document.querySelector(`input[name="${domain.id}_${i}"]:checked`);
-      if (!selected) missing.push(`${domain.short} item ${i+1}`);
-      else scores[domain.id].push(Number(selected.value));
+
+      if (!selected) {
+        missing.push(`${domain.short} item ${i + 1}`);
+      } else {
+        scores[domain.id].push(Number(selected.value));
+      }
     });
   });
+
   if (missing.length) {
     alert("Please answer all rating items before generating your summary.");
     return null;
   }
+
   return scores;
 }
 
 function initIndividualPage() {
   generateIndividualForm();
+
   const btn = document.getElementById("generateIndividual");
   if (!btn) return;
+
   btn.addEventListener("click", () => {
     const scores = collectIndividualScores();
     if (!scores) return;
+
     const domainScores = scoreDomains(scores);
     const code = makeCode(scores);
     const evidenceNotes = collectEvidenceNotes();
+
     document.getElementById("individualResults").style.display = "block";
+
     renderBars(domainScores, "individualBars");
     renderEvidenceNotes(evidenceNotes, "individualEvidenceNotes");
+
     const overall = round2(average(Object.values(domainScores)));
     const level = readinessLabel(overall);
+
     document.getElementById("individualOverall").innerHTML = `
       <h3>Individual Readiness Snapshot</h3>
       <p><strong>Overall average:</strong> <span class="badge ${level.cls}">${overall.toFixed(2)} — ${level.label}</span></p>
@@ -324,32 +387,52 @@ function initIndividualPage() {
         <strong>Use this as reflection, not judgment.</strong> A lower score does not mean the team is failing. It means there may be a condition worth strengthening before expecting deeper PLC work.
       </div>
     `;
+
     document.getElementById("responseCode").textContent = code;
-    window.scrollTo({ top: document.getElementById("individualResults").offsetTop - 20, behavior: "smooth" });
+
+    window.scrollTo({
+      top: document.getElementById("individualResults").offsetTop - 20,
+      behavior: "smooth"
+    });
   });
 
   const copyBtn = document.getElementById("copyCode");
-  if (copyBtn) copyBtn.addEventListener("click", () => copyText(document.getElementById("responseCode").textContent));
+  if (copyBtn) {
+    copyBtn.addEventListener("click", () => copyText(document.getElementById("responseCode").textContent));
+  }
 
   const exportBtn = document.getElementById("exportIndividualPdf");
-  if (exportBtn) exportBtn.addEventListener("click", () => exportPdf("Individual PLC Readiness Summary"));
+  if (exportBtn) {
+    exportBtn.addEventListener("click", () => exportPdf("Individual PLC Readiness Summary"));
+  }
 }
 
 function initDashboardPage() {
   const btn = document.getElementById("generateDashboard");
   if (!btn) return;
+
   btn.addEventListener("click", () => {
-    const raw = document.getElementById("codesInput").value.split(/\n+/).map(x => x.trim()).filter(Boolean);
+    const raw = document.getElementById("codesInput").value
+      .split(/\n+/)
+      .map(x => x.trim())
+      .filter(Boolean);
+
     if (raw.length < 2) {
       alert("Paste at least two individual response codes to generate a team dashboard.");
       return;
     }
+
     let parsed = [];
     let errors = [];
+
     raw.forEach((code, idx) => {
-      try { parsed.push(parseCode(code)); }
-      catch (e) { errors.push(`Line ${idx+1}: ${e.message}`); }
+      try {
+        parsed.push(parseCode(code));
+      } catch (e) {
+        errors.push(`Line ${idx + 1}: ${e.message}`);
+      }
     });
+
     if (errors.length) {
       alert("Some response codes could not be read:\n\n" + errors.join("\n"));
       return;
@@ -357,6 +440,7 @@ function initDashboardPage() {
 
     const domainTeamScores = {};
     const domainSpread = {};
+
     DOMAINS.forEach(d => {
       const memberAvgs = parsed.map(p => average(p[d.id]));
       domainTeamScores[d.id] = round2(average(memberAvgs));
@@ -365,15 +449,18 @@ function initDashboardPage() {
 
     const overall = round2(average(Object.values(domainTeamScores)));
     const overallInfo = readinessLabel(overall);
-    const sortedLow = [...DOMAINS].sort((a,b) => domainTeamScores[a.id] - domainTeamScores[b.id]);
+
+    const sortedLow = [...DOMAINS].sort((a, b) => domainTeamScores[a.id] - domainTeamScores[b.id]);
     const lowest = sortedLow[0];
     const highest = sortedLow[sortedLow.length - 1];
-    const widest = [...DOMAINS].sort((a,b) => domainSpread[b.id] - domainSpread[a.id])[0];
+    const widest = [...DOMAINS].sort((a, b) => domainSpread[b.id] - domainSpread[a.id])[0];
     const lowInfo = readinessLabel(domainTeamScores[lowest.id]);
 
     document.getElementById("dashboardResults").style.display = "block";
+
     document.getElementById("teamSummary").innerHTML = `
       <h2>PLC Readiness Conversation Report</h2>
+      <p class="small">A team-level snapshot of readiness conditions, perception gaps, and possible next steps.</p>
       <p><strong>Number of individual assessments included:</strong> ${parsed.length}</p>
       <p><strong>Overall team average:</strong> <span class="badge ${overallInfo.cls}">${overall.toFixed(2)} — ${overallInfo.label}</span></p>
       <p>${overallInfo.desc}</p>
@@ -389,6 +476,7 @@ function initDashboardPage() {
 
     let tableRows = DOMAINS.map(d => {
       const info = readinessLabel(domainTeamScores[d.id]);
+
       return `
         <tr>
           <td><strong>${d.title}</strong></td>
@@ -440,6 +528,7 @@ function initDashboardPage() {
 
     const lowPrompts = lowest.prompts.map(p => `<li>${p}</li>`).join("");
     const widePrompts = widest.prompts.map(p => `<li>${p}</li>`).join("");
+
     document.getElementById("conversationPrompts").innerHTML = `
       <h3>Facilitated Conversation Prompts</h3>
       <div class="grid">
@@ -489,21 +578,28 @@ function initDashboardPage() {
       </table>
     `;
 
-    window.scrollTo({ top: document.getElementById("dashboardResults").offsetTop - 20, behavior: "smooth" });
+    window.scrollTo({
+      top: document.getElementById("dashboardResults").offsetTop - 20,
+      behavior: "smooth"
+    });
   });
 
   const exportBtn = document.getElementById("exportDashboardPdf");
-  if (exportBtn) exportBtn.addEventListener("click", () => exportPdf("PLC Readiness Conversation Report"));
+  if (exportBtn) {
+    exportBtn.addEventListener("click", () => exportPdf("PLC Readiness Conversation Report"));
+  }
 
   const sampleBtn = document.getElementById("loadSample");
-  if (sampleBtn) sampleBtn.addEventListener("click", () => {
-    document.getElementById("codesInput").value = [
-      "PLC-COMPASS|3,3,2,3|3,4,3,3|3,2,3,3|2,2,2,3|3,2,3,2",
-      "PLC-COMPASS|2,2,2,3|4,3,3,4|3,3,3,2|2,1,2,2|2,2,3,2",
-      "PLC-COMPASS|3,2,3,2|3,3,4,3|2,3,2,3|1,2,2,2|2,2,2,3",
-      "PLC-COMPASS|4,3,3,3|4,4,3,4|3,3,4,3|2,2,3,2|3,3,2,2"
-    ].join("\n");
-  });
+  if (sampleBtn) {
+    sampleBtn.addEventListener("click", () => {
+      document.getElementById("codesInput").value = [
+        "PLC-COMPASS|3,3,2,3|3,4,3,3|3,2,3,3|2,2,2,3|3,2,3,2",
+        "PLC-COMPASS|2,2,2,3|4,3,3,4|3,3,3,2|2,1,2,2|2,2,3,2",
+        "PLC-COMPASS|3,2,3,2|3,3,4,3|2,3,2,3|1,2,2,2|2,2,2,3",
+        "PLC-COMPASS|4,3,3,3|4,4,3,4|3,3,4,3|2,2,3,2|3,3,2,2"
+      ].join("\n");
+    });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
