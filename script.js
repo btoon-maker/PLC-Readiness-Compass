@@ -608,7 +608,7 @@ let tableRows = DOMAINS.map(d => {
 
     document.getElementById("actionPlan").innerHTML = `
       <h3>PLC Action Plan</h3>
-      <p>Choose one realistic move to try before the next PLC cycle. The goal is not to fix everything. The goal is to strengthen one readiness condition on purpose.</p>
+      <p>Choose one realistic move to try before your next PLC meeting. The goal is not to fix everything. The goal is to strengthen one readiness condition on purpose.</p>
       <table class="action-table">
         <thead>
           <tr>
