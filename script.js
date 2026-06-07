@@ -3,10 +3,10 @@ const DOMAINS = [
     id: "leadership",
     title: "Shared and Supportive Leadership",
     short: "Shared Leadership",
-    description: "This section looks at whether PLC leadership feels shared, supported, and connected to the work teachers actually do together.",
+    description: "This section looks at how formal PLC leadership supports shared ownership, teacher voice, and meaningful collaboration, even when the PLC is facilitated by a designated lead or guided by administrative priorities.",
     evidenceLead: "Think about recent agendas, decisions, follow-up, facilitation, and whose voices shaped the work.",
     items: [
-      "When we meet as a PLC, team members have a real say in what we focus on, not just in how we respond to someone else’s agenda.",
+      "When we meet as a PLC, team members have meaningful opportunities to shape the work, even when the agenda is guided by a department lead or administrative priorities.",
       "Leadership in our PLC feels shared. Different people can guide, question, contribute, or take ownership when it makes sense.",
       "Our PLC time is protected for meaningful instructional work, not mostly announcements, reminders, or compliance tasks.",
       "When we identify a barrier, someone with influence helps remove it or helps us find a realistic path forward."
