@@ -418,4 +418,12 @@ footer {
   .bar {
     border: 1px solid #999;
   }
+  .evidence-note {
+  border-left: 5px solid var(--accent);
+  background: var(--accent-soft);
+  padding: 1rem;
+  border-radius: 12px;
+  margin: 1rem 0;
+  color: var(--text);
+}
 }
