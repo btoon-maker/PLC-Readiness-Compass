@@ -283,10 +283,16 @@ button:hover {
 
 .result-card {
   background: #fff;
-  border: 1px solid var(--border);
+  border: 1px solid #cbb7df;
+  border-left: 6px solid var(--accent-2);
   border-radius: 16px;
-  padding: 1rem;
+  padding: 1.1rem;
   margin: .75rem 0;
+  box-shadow: 0 8px 18px rgba(131, 73, 183, .10);
+}
+.result-card h4 {
+  margin-top: 0;
+  color: var(--accent-2);
 }
 
 .score-row {
