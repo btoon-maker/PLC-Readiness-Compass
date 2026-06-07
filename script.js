@@ -124,53 +124,53 @@ function readinessLabel(score) {
 
 function spreadInfo(spread) {
   if (spread <= 0.24) return {
-    label: "High agreement",
+    label: "Similar responses",
     cls: "good",
-    meaning: "Members appear to be experiencing this condition similarly."
+    meaning: "The response spread is relatively small, so members may be seeing this condition in similar ways."
   };
 
   if (spread <= 0.49) return {
     label: "Some variation",
     cls: "neutral",
-    meaning: "Members may be experiencing this condition somewhat differently."
+    meaning: "The response spread shows some variation, so it may be useful to ask what different experiences or evidence shaped members’ responses."
   };
 
   return {
-    label: "Perception gap",
+    label: "Larger variation",
     cls: "mid",
-    meaning: "Members may be experiencing this condition very differently. Discuss evidence before choosing a solution."
+    meaning: "The response spread is larger, so the team should discuss what different experiences may be shaping members’ perceptions before choosing a next step."
   };
 }
 
 function domainInterpretation(domain, score, spread) {
   const spreadText = spreadInfo(spread);
 
-  const interpretations = {
+  const cues = {
     leadership: {
-      meaning: "Responses suggest that formal PLC leadership may be supporting shared ownership, but the team should clarify where members have voice, influence, and responsibility within administratively guided priorities.",
-      move: "Ask: Which parts of our PLC work are administratively directed, and where can the team meaningfully shape decisions or next steps?"
+      cue: "This domain may be worth discussing in relation to teacher voice, shared ownership, facilitation, and how administrative priorities are translated into PLC work.",
+      question: "Where do team members currently have meaningful voice or ownership, and where could that be strengthened?"
     },
     vision: {
-      meaning: "Responses suggest the team may have some shared direction, but the shared student-learning priority may need to be made more explicit before the next PLC cycle.",
-      move: "Ask the team to name one student-learning priority that should anchor the next PLC meeting."
+      cue: "This domain may be worth discussing in relation to shared purpose, student-learning priorities, and whether the team is working from the same definition of success.",
+      question: "What student-learning priority should most clearly guide our next PLC cycle?"
     },
     learning: {
-      meaning: "Responses suggest the team may be engaging in useful professional learning, but the next step is to strengthen the connection between discussion, instructional action, and follow-up evidence.",
-      move: "Choose one piece of student evidence and one instructional move to test before the next meeting."
+      cue: "This domain may be worth discussing in relation to how the team uses evidence, shares strategies, tries ideas, and follows up on whether those ideas helped students.",
+      question: "What evidence or student work should guide our next instructional decision?"
     },
     practice: {
-      meaning: "Responses suggest the team may have some readiness to discuss practice, but deeper sharing may depend on trust, psychological safety, and low-risk ways to examine artifacts.",
-      move: "Begin with a low-risk artifact, such as student work, assignment directions, feedback examples, or a lesson resource."
+      cue: "This domain may be worth discussing in relation to trust, psychological safety, and how comfortable the team feels examining real examples of practice together.",
+      question: "What kind of practice-sharing would feel useful and low-risk for this team right now?"
     },
     conditions: {
-      meaning: "Responses suggest that time, norms, resources, data access, or psychological safety may be influencing how ready the team feels for deeper PLC work.",
-      move: "Identify one structure, norm, or support that would make PLC time more focused and productive."
+      cue: "This domain may be worth discussing in relation to time, meeting structure, norms, resources, data access, and the supports needed for meaningful PLC work.",
+      question: "What condition would make our PLC time more focused, honest, or useful?"
     }
   };
 
   return {
-    meaning: `${interpretations[domain.id].meaning} ${spreadText.meaning}`,
-    move: interpretations[domain.id].move
+    cue: `${cues[domain.id].cue} ${spreadText.meaning}`,
+    question: cues[domain.id].question
   };
 }
 
@@ -526,27 +526,27 @@ function initDashboardPage() {
 
     renderBars(domainTeamScores, "teamBars");
 
-    let tableRows = DOMAINS.map(d => {
-      const score = domainTeamScores[d.id];
-      const spread = domainSpread[d.id];
-      const info = readinessLabel(score);
-      const spreadDetails = spreadInfo(spread);
-      const interpretation = domainInterpretation(d, score, spread);
+let tableRows = DOMAINS.map(d => {
+  const score = domainTeamScores[d.id];
+  const spread = domainSpread[d.id];
+  const info = readinessLabel(score);
+  const spreadDetails = spreadInfo(spread);
+  const interpretation = domainInterpretation(d, score, spread);
 
-      return `
-        <tr>
-          <td><strong>${d.title}</strong></td>
-          <td>${score.toFixed(2)}</td>
-          <td><span class="badge ${info.cls}">${info.label}</span></td>
-          <td>
-            <strong>${spread.toFixed(2)}</strong><br>
-            <span class="badge ${spreadDetails.cls}">${spreadDetails.label}</span>
-          </td>
-          <td>${interpretation.meaning}</td>
-          <td>${interpretation.move}</td>
-        </tr>
-      `;
-    }).join("");
+  return `
+    <tr>
+      <td><strong>${d.title}</strong></td>
+      <td>${score.toFixed(2)}</td>
+      <td><span class="badge ${info.cls}">${info.label}</span></td>
+      <td>
+        <strong>${spread.toFixed(2)}</strong><br>
+        <span class="badge ${spreadDetails.cls}">${spreadDetails.label}</span>
+      </td>
+      <td>${interpretation.cue}</td>
+      <td>${interpretation.question}</td>
+    </tr>
+  `;
+}).join("");
 
     document.getElementById("domainTable").innerHTML = `
       <h3>Domain Results</h3>
@@ -558,8 +558,7 @@ function initDashboardPage() {
             <th>Level</th>
             <th>Spread</th>
             <th>What this may mean</th>
-            <th>Conversation move</th>
-          </tr>
+            <th>Possible next question</th>          </tr>
         </thead>
         <tbody>${tableRows}</tbody>
       </table>
