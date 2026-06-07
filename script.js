@@ -100,19 +100,19 @@ function readinessLabel(score) {
   if (score < 2) return {
     label: "Foundational Concern",
     cls: "low",
-    desc: "major readiness conditions appear absent or inconsistent. Begin with trust, time, norms, and clarity before expecting deeper PLC work."
+    desc: "major readiness conditions may be absent or inconsistent. The team may need to begin with trust, time, norms, and clarity before expecting deeper PLC work."
   };
 
   if (score < 2.8) return {
     label: "Emerging",
     cls: "mid",
-    desc: "some readiness conditions are present, but the team likely needs more consistency, shared routines, and support."
+    desc: "some readiness conditions are present, but the team may need more consistency, shared routines, and support."
   };
 
   if (score < 3.5) return {
     label: "Developing",
     cls: "neutral",
-    desc: "the team has usable readiness foundations and can strengthen PLC practice through focused next steps and follow-up."
+    desc: "the team has usable readiness foundations and may be ready to strengthen PLC practice through focused next steps and follow-up."
   };
 
   return {
@@ -382,7 +382,7 @@ function initIndividualPage() {
     document.getElementById("individualOverall").innerHTML = `
       <h3>Individual Readiness Snapshot</h3>
       <p><strong>Overall average:</strong> <span class="badge ${level.cls}">${overall.toFixed(2)} — ${level.label}</span></p>
-      <p>Based on your ratings, ${level.desc}</p>
+      <p>Your responses suggest that ${level.desc}</p>
       <div class="warm-notice">
         <strong>Use this as reflection, not judgment.</strong> A lower score does not mean the team is failing. It means there may be a condition worth strengthening before expecting deeper PLC work.
       </div>
@@ -463,12 +463,12 @@ function initDashboardPage() {
       <p class="small">A team-level snapshot of readiness conditions, perception gaps, and possible next steps.</p>
       <p><strong>Number of individual assessments included:</strong> ${parsed.length}</p>
       <p><strong>Overall team average:</strong> <span class="badge ${overallInfo.cls}">${overall.toFixed(2)} — ${overallInfo.label}</span></p>
-      <p>Based on the submitted team ratings, ${overallInfo.desc}</p>
+      <p>The submitted responses suggest that ${overallInfo.desc}</p>
       <div class="warm-notice">
         <strong>How to read this report:</strong> The scores are not the conversation. They are the doorway into the conversation. Start by asking what evidence might explain the pattern.
       </div>
       <div class="notice">
-        <strong>Primary conversation priority:</strong> ${lowest.title}. This domain had the lowest average score. Based on the submitted team ratings, ${lowInfo.desc}
+        <strong>Primary conversation priority:</strong> ${lowest.title}. This domain had the lowest average score. This pattern suggests that ${lowInfo.desc}
       </div>
     `;
 
@@ -483,7 +483,7 @@ function initDashboardPage() {
           <td>${domainTeamScores[d.id].toFixed(2)}</td>
           <td><span class="badge ${info.cls}">${info.label}</span></td>
           <td>${domainSpread[d.id].toFixed(2)}</td>
-          <td>Based on the submitted team ratings, ${info.desc}</td>
+          <td>The submitted responses suggest that ${info.desc}</td>
         </tr>
       `;
     }).join("");
