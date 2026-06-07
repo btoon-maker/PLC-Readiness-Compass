@@ -557,7 +557,7 @@ let tableRows = DOMAINS.map(d => {
             <th>Avg.</th>
             <th>Level</th>
             <th>Spread</th>
-            <th>What this may mean</th>
+            <th>Conversation cue</th>
             <th>Possible next question</th>          </tr>
         </thead>
         <tbody>${tableRows}</tbody>
