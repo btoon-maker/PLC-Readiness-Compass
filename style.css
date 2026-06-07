@@ -54,8 +54,17 @@ h1 {
 }
 
 h2,
-h3 {
+h3,
+h4 {
   line-height: 1.2;
+  color: var(--accent);
+}
+
+header h1,
+header h2,
+header h3,
+header h4 {
+  color: white;
 }
 
 header p {
@@ -293,7 +302,7 @@ button:hover {
 
 .result-card h4 {
   margin-top: 0;
-  color: var(--accent-2);
+  color: var(--accent);
 }
 
 .score-row {
@@ -502,6 +511,10 @@ footer {
     padding: 0 0 .5rem 0;
   }
 
+  header h1,
+  header h2,
+  header h3,
+  header h4,
   header p {
     color: black;
   }
