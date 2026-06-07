@@ -122,6 +122,58 @@ function readinessLabel(score) {
   };
 }
 
+function spreadInfo(spread) {
+  if (spread <= 0.24) return {
+    label: "High agreement",
+    cls: "good",
+    meaning: "Members appear to be experiencing this condition similarly."
+  };
+
+  if (spread <= 0.49) return {
+    label: "Some variation",
+    cls: "neutral",
+    meaning: "Members may be experiencing this condition somewhat differently."
+  };
+
+  return {
+    label: "Perception gap",
+    cls: "mid",
+    meaning: "Members may be experiencing this condition very differently. Discuss evidence before choosing a solution."
+  };
+}
+
+function domainInterpretation(domain, score, spread) {
+  const spreadText = spreadInfo(spread);
+
+  const interpretations = {
+    leadership: {
+      meaning: "Responses suggest that formal PLC leadership may be supporting shared ownership, but the team should clarify where members have voice, influence, and responsibility within administratively guided priorities.",
+      move: "Ask: Which parts of our PLC work are administratively directed, and where can the team meaningfully shape decisions or next steps?"
+    },
+    vision: {
+      meaning: "Responses suggest the team may have some shared direction, but the shared student-learning priority may need to be made more explicit before the next PLC cycle.",
+      move: "Ask the team to name one student-learning priority that should anchor the next PLC meeting."
+    },
+    learning: {
+      meaning: "Responses suggest the team may be engaging in useful professional learning, but the next step is to strengthen the connection between discussion, instructional action, and follow-up evidence.",
+      move: "Choose one piece of student evidence and one instructional move to test before the next meeting."
+    },
+    practice: {
+      meaning: "Responses suggest the team may have some readiness to discuss practice, but deeper sharing may depend on trust, psychological safety, and low-risk ways to examine artifacts.",
+      move: "Begin with a low-risk artifact, such as student work, assignment directions, feedback examples, or a lesson resource."
+    },
+    conditions: {
+      meaning: "Responses suggest that time, norms, resources, data access, or psychological safety may be influencing how ready the team feels for deeper PLC work.",
+      move: "Identify one structure, norm, or support that would make PLC time more focused and productive."
+    }
+  };
+
+  return {
+    meaning: `${interpretations[domain.id].meaning} ${spreadText.meaning}`,
+    move: interpretations[domain.id].move
+  };
+}
+
 function average(arr) {
   if (!arr.length) return 0;
   return arr.reduce((a, b) => a + b, 0) / arr.length;
@@ -475,29 +527,38 @@ function initDashboardPage() {
     renderBars(domainTeamScores, "teamBars");
 
     let tableRows = DOMAINS.map(d => {
-      const info = readinessLabel(domainTeamScores[d.id]);
+      const score = domainTeamScores[d.id];
+      const spread = domainSpread[d.id];
+      const info = readinessLabel(score);
+      const spreadDetails = spreadInfo(spread);
+      const interpretation = domainInterpretation(d, score, spread);
 
       return `
         <tr>
           <td><strong>${d.title}</strong></td>
-          <td>${domainTeamScores[d.id].toFixed(2)}</td>
+          <td>${score.toFixed(2)}</td>
           <td><span class="badge ${info.cls}">${info.label}</span></td>
-          <td>${domainSpread[d.id].toFixed(2)}</td>
-          <td>The submitted responses suggest that ${info.desc}</td>
+          <td>
+            <strong>${spread.toFixed(2)}</strong><br>
+            <span class="badge ${spreadDetails.cls}">${spreadDetails.label}</span>
+          </td>
+          <td>${interpretation.meaning}</td>
+          <td>${interpretation.move}</td>
         </tr>
       `;
     }).join("");
 
     document.getElementById("domainTable").innerHTML = `
       <h3>Domain Results</h3>
-      <table>
+      <table class="domain-results-table">
         <thead>
           <tr>
             <th>PLC Component</th>
-            <th>Team Avg.</th>
-            <th>Readiness Level</th>
-            <th>Response Spread</th>
-            <th>Interpretation</th>
+            <th>Avg.</th>
+            <th>Level</th>
+            <th>Spread</th>
+            <th>What this may mean</th>
+            <th>Conversation move</th>
           </tr>
         </thead>
         <tbody>${tableRows}</tbody>
@@ -546,39 +607,39 @@ function initDashboardPage() {
       </div>
     `;
 
-document.getElementById("actionPlan").innerHTML = `
-  <h3>PLC Action Plan</h3>
-  <p>Choose one realistic move to try before the next PLC cycle. The goal is not to fix everything. The goal is to strengthen one readiness condition on purpose.</p>
-  <table class="action-table">
-    <thead>
-      <tr>
-        <th>Readiness condition to strengthen</th>
-        <th>One next step</th>
-        <th>Owner/facilitator</th>
-        <th>Timeline</th>
-        <th>Evidence to revisit</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>${lowest.title}</td>
-        <td><textarea class="action-input" placeholder="What is one realistic next step?"></textarea></td>
-        <td><textarea class="action-input" placeholder="Who will lead or follow up?"></textarea></td>
-        <td><textarea class="action-input" placeholder="By when?"></textarea></td>
-        <td><textarea class="action-input" placeholder="What evidence will we revisit?"></textarea></td>
-      </tr>
-      <tr>
-        <td>${widest.title}</td>
-        <td><textarea class="action-input" placeholder="What is one realistic next step?"></textarea></td>
-        <td><textarea class="action-input" placeholder="Who will lead or follow up?"></textarea></td>
-        <td><textarea class="action-input" placeholder="By when?"></textarea></td>
-        <td><textarea class="action-input" placeholder="What evidence will we revisit?"></textarea></td>
-      </tr>
-    </tbody>
-  </table>
-`;
+    document.getElementById("actionPlan").innerHTML = `
+      <h3>PLC Action Plan</h3>
+      <p>Choose one realistic move to try before the next PLC cycle. The goal is not to fix everything. The goal is to strengthen one readiness condition on purpose.</p>
+      <table class="action-table">
+        <thead>
+          <tr>
+            <th>Readiness condition to strengthen</th>
+            <th>One next step</th>
+            <th>Owner/facilitator</th>
+            <th>Timeline</th>
+            <th>Evidence to revisit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>${lowest.title}</td>
+            <td><textarea class="action-input" placeholder="What is one realistic next step?"></textarea></td>
+            <td><textarea class="action-input" placeholder="Who will lead or follow up?"></textarea></td>
+            <td><textarea class="action-input" placeholder="By when?"></textarea></td>
+            <td><textarea class="action-input" placeholder="What evidence will we revisit?"></textarea></td>
+          </tr>
+          <tr>
+            <td>${widest.title}</td>
+            <td><textarea class="action-input" placeholder="What is one realistic next step?"></textarea></td>
+            <td><textarea class="action-input" placeholder="Who will lead or follow up?"></textarea></td>
+            <td><textarea class="action-input" placeholder="By when?"></textarea></td>
+            <td><textarea class="action-input" placeholder="What evidence will we revisit?"></textarea></td>
+          </tr>
+        </tbody>
+      </table>
+    `;
 
-setupActionPlanTextareas();
+    setupActionPlanTextareas();
 
     window.scrollTo({
       top: document.getElementById("dashboardResults").offsetTop - 20,
@@ -603,6 +664,7 @@ setupActionPlanTextareas();
     });
   }
 }
+
 function setupActionPlanTextareas() {
   const textareas = document.querySelectorAll(".action-input");
 
@@ -616,6 +678,7 @@ function setupActionPlanTextareas() {
     resize();
   });
 }
+
 document.addEventListener("DOMContentLoaded", () => {
   initIndividualPage();
   initDashboardPage();
